@@ -1,3 +1,7 @@
+app.get("/", (req, res) => {
+  res.send("SatsFlow API ONLINE 🚀");
+});
+
 const express = require("express");
 const axios = require("axios");
 
