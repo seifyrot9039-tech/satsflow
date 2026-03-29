@@ -40,3 +40,30 @@ app.post("/pagar", async (req, res) => {
 });
 
 app.listen(3000, () => console.log("Servidor rodando"));
+app.post("/invoice", async (req, res) => {
+  const { amount } = req.body;
+
+  try {
+    const response = await axios.post(
+      "https://api.opennode.com/v1/charges",
+      {
+        amount: amount,
+        currency: "BRL"
+      },
+      {
+        headers: {
+          Authorization: API_KEY
+        }
+      }
+    );
+
+    res.json({
+      lightning_invoice: response.data.data.lightning_invoice.payreq,
+      qr: response.data.data.lightning_invoice.qr_code
+    });
+
+  } catch (err) {
+    console.log(err.response?.data || err.message);
+    res.status(500).send("Erro ao gerar cobrança");
+  }
+});
