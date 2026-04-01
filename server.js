@@ -1,7 +1,3 @@
-app.get("/", (req, res) => {
-  res.send("SatsFlow API ONLINE 🚀");
-});
-
 const express = require("express");
 const axios = require("axios");
 
@@ -10,6 +6,12 @@ app.use(express.json());
 
 const API_KEY = process.env.API_KEY;
 
+// Rota principal
+app.get("/", (req, res) => {
+  res.send("SatsFlow API ONLINE 🚀");
+});
+
+// Enviar sats
 app.post("/pagar", async (req, res) => {
   const { amount, lightning } = req.body;
 
@@ -43,7 +45,7 @@ app.post("/pagar", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Servidor rodando"));
+// Gerar cobrança (QR)
 app.post("/invoice", async (req, res) => {
   const { amount } = req.body;
 
@@ -71,3 +73,7 @@ app.post("/invoice", async (req, res) => {
     res.status(500).send("Erro ao gerar cobrança");
   }
 });
+
+// Porta correta para Render
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Servidor rodando 🚀"));
